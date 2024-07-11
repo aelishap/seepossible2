@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { login } from '../../redux/actions/auth.actions';
@@ -11,17 +11,21 @@ const Login = () => {
   const state = useSelector((state) => state.authReducer);
   const user = localStorage.getItem("user");
   const isAuthenticated = state?.isAuthenticated || JSON.parse(user)?.username ? true : false;
+  const [loading, setLoading] = useState(false)
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" />;
   }
 
   const handleSubmit = (values) => {
+    setLoading(true)
     dispatch(login(values, (success) => {
       if (success) {
+        setLoading(false)
         message.success('Login Successfully!');
         navigate('/dashboard');
       } else {
+        setLoading(false)
         message.error('Please enter valid username or password!');
       }
     }));
@@ -62,7 +66,7 @@ const Login = () => {
             <Input.Password placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="bg-[gray] rounded hover:bg-[#242424] w-full text-[white] py-6 rounded-lg my-4 md:my-8">
+            <Button type="primary" loading={loading} htmlType="submit" className="bg-[gray] rounded hover:bg-[#242424] w-full text-[white] py-6 rounded-lg my-4 md:my-8">
               Login
             </Button>
           </Form.Item>

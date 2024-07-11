@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Product from '../../components/product';
-import { message, Typography } from 'antd';
+import { message, Spin, Typography } from 'antd';
 import Layout from '../layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../redux/actions/product.actions';
@@ -37,6 +37,8 @@ const Dashboard = () => {
     <Layout>
       <div className="flex-1 overflow-y-auto bg-gray-100 p-4">
         <Typography className='py-2 text-[24px] font-semibold'>Products</Typography>
+        {
+          products?.products?.length >0 ?
         <div className="border-2 rounded-md bg-white">
           <div className='flex px-4 py-1 mb-4' style={{borderBottom:"2px solid #e9e8e8"}}>
             <Typography className='text-[16px] w-[20%] flex justify-center'>Name</Typography>
@@ -50,8 +52,10 @@ const Dashboard = () => {
             <Product key={product.id} product={product} isCart={false} addToCart={() => addToCart(product)} />
           ))}
           </div>
-        </div>
-      </div>
+        </div>:
+        <Spin className=' flex justify-center mt-12' />
+}
+      </div>  
     </Layout>
 
   );

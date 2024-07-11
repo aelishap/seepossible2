@@ -5,3 +5,7 @@
 .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover{
 background-color: #242424;
 }
+
+.ant-spin .ant-spin-dot-holder{
+    color: gray;
+}
